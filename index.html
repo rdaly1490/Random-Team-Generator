@@ -4,20 +4,24 @@
 	<title>Random Team Generator</title>
 	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Archivo+Narrow" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="icon" href="batsman.favicon.jpg">
 </head>
-<body>
-<div id="app-container">
+<body >
+
+<div style="text-align:center" id="app-container">
+	<h1>SPCT 2019-20 </h1>
 	<h1>Random Team Generator</h1>
 	<form id="team-settings">
-		<label>Team Size</label>
+		<label>Team Size (how many people in One team?)</label>
 		<input />
 		<p id="size-error" class="error-text"></p>
-		<label>People</label>
-		<textarea placeholder="James Smith \nJohn Doe \netc." /></textarea>
+		<label>Players List</label>
+		<textarea placeholder="Sachin T\nM Dhoni \nVirat K" /></textarea>
 		<p id="people-error" class="error-text"></p>
 		<button>Generate Teams!</button>
 	</form>
 	<div id="team-container"></div>
+	<a href='#' onclick='downloadCSV({ filename: "stock-data.csv" });'>Download CSV</a>
 </div>
 <script type="text/javascript" src="js/index.js"></script>
 </body>

@@ -1,3 +1,4 @@
+var teams = [];
 // Do any page setup, like modifying placeholder text
 function init() {
 	var textarea = document.getElementsByTagName('textarea')[0];
@@ -24,14 +25,14 @@ function getRandomTeam(arr, groupSize) {
 
 		// Append an & if we're on any but the last group member 
 		var stringToAppend = randomPerson;
-		if (i < groupSize - 1) { stringToAppend += ' & '; }
+		if (i < groupSize - 1) { stringToAppend += ' , '; }
 		currentTeam += stringToAppend;
 	}
 	return currentTeam;
 }
 
 function generateAllTeams(peopleArray, groupSize) {
-	var teams = [];
+	teams = [];
 	while(peopleArray.length > 0) {
 		var currentGroup = getRandomTeam(peopleArray, groupSize);
 		teams.push(currentGroup);
@@ -114,6 +115,56 @@ document.getElementById('team-settings').addEventListener('submit', function(e) 
 		generateAllTeams(peopleArray, inputValue);
 	}
 });
+
+function convertArrayOfObjectsToCSV(teamlist) {
+	console.log("in convert function");
+	
+	data = teamlist || null;
+	if (data == null || !data.length) {
+		return null;
+	}
+	console.log("got a valid team list:");
+	console.log(teamlist);
+	columnDelimiter = ',';
+	lineDelimiter =  '\n';
+
+	keys = Object.keys(data[0]);
+
+	result = '';
+	data.forEach(function(item) {
+		keys.forEach(function(key) {
+			result += item[key];
+		});
+		result += lineDelimiter;
+	});
+
+	return result;
+}
+
+function downloadCSV(args) {
+	var data, filename, link;
+
+	var csv = convertArrayOfObjectsToCSV(teams);
+	console.log("is csv ready?");
+	if (csv == null) {
+		console.log("Invalid or empty input!");
+		alert("Can't trick the system.\n No way around.\n Please fill all fields in the form!");
+		return;
+	}
+	console.log("file is ready");
+
+	filename = args.filename || 'export.csv';
+
+	if (!csv.match(/^data:text\/csv/i)) {
+		csv = 'data:text/csv;charset=utf-8,' + csv;
+	}
+	data = encodeURI(csv);
+
+	link = document.createElement('a');
+	link.setAttribute('href', data);
+	link.setAttribute('download', filename);
+	link.click();
+}
 
 init();
 
