@@ -8,4 +8,4 @@ This simple html webpage helps you to create a random teams based on provided te
 2. Run index.html on web browser
 
 ## current UI
-![front end](https://raw.githubusercontent.com/rameshgkwd05/Random-Team-Generator/master/front-end.png)
+![front end](https://github.com/rameshgkwd05/Random-Team-Generator/blob/master/front-end.PNG)
