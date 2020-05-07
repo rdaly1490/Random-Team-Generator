@@ -1,15 +1,8 @@
 body {
 	width: 100%;
 	height: 100%;
-	color: #4ECDC4;
-}
-
-h1 {
-	font-size: 36px;
-	font-family: 'Abril Fatface', cursive;
-	letter-spacing: 1.5px;
-    text-decoration: underline;
-    margin-bottom: 10px;
+	/* color: #4ECDC4; */
+	background-image: url(../img/bg.jpg);
 }
 
 .team {
@@ -23,7 +16,7 @@ h1 {
 #app-container {
 	width: 100%;
 	height: 100vh;
-	background-color: #647383;
+	/* background-color: #647383; */
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -42,14 +35,21 @@ textarea {
 }
 
 .error-text {
-	color: red;
+	color: sandybrown;
 }
 
 button {
-	padding: 15px;
-	color: #4ECDC4;
-	background-color: #647383;
-	border: 1px solid #4ECDC4;
+	display: inline-block;
+	background-color: #fff;
+	font-size: 13px;
+	padding: 12px 18px;
+	color: #121212;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	text-decoration: none;
+	border-radius: 20px;
+	margin-top: 25px;
 }
 
 button:hover {
@@ -67,3 +67,79 @@ button:focus {
     to   { opacity: 1; }
 }
 
+
+
+
+
+h2 {
+	font-size: 36px;
+	font-weight: 400;
+	color: #fff;
+}
+
+h2 span {
+	font-weight: 700;
+	color: #33c1cf!important;
+}
+
+h2 em {
+	font-style: normal;
+	font-weight: 700;
+	color: #f89624!important;
+}
+
+p {
+	color: #fff;
+	font-size: 14px;
+	line-height: 32px;
+}
+
+
+ 
+  a {
+	position: relative;
+	display: inline-block;
+	transition: .3s;
+	text-decoration: none;
+  }
+  
+  a::after {
+	position: absolute;
+	bottom: .3em;
+	left: 0;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background-color: green;
+	opacity: 0;
+	transition: .3s;
+  }
+  
+  a:hover::after {
+	bottom: 0;
+	opacity: 1;
+	color: green;
+  }
+  
+  a:hover {
+	/* color: green; */
+	background-color: #4ECDC4;
+	color: #647383;
+	cursor: pointer;
+  }
+  
+
+  a {
+	display: inline-block;
+	background-color: #fff;
+	font-size: 13px;
+	padding: 12px 18px;
+	color: #121212;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	text-decoration: none;
+	border-radius: 20px;
+	margin-top: 25px;
+	
+}

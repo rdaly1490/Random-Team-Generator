@@ -7,16 +7,16 @@ function init() {
 
 function getRandomTeam(arr, groupSize) {
 	var currentTeam = '';
-	for (var i=0; i < groupSize; i++) {
+	for (var i = 0; i < groupSize; i++) {
 
-		var randomPerson = arr[Math.floor(Math.random()*arr.length)];
+		var randomPerson = arr[Math.floor(Math.random() * arr.length)];
 
 		// If we get undefined, out of choices.  Need to remove the last "&"
 		// that we appended and break out of loop.
 		if (randomPerson === undefined) {
 			var trailingAmpersandIndex = currentTeam.lastIndexOf(' &');
 			currentTeam = currentTeam.substring(0, trailingAmpersandIndex);
-			break; 
+			break;
 		}
 
 		// Get person's index and remove person from the array
@@ -33,7 +33,7 @@ function getRandomTeam(arr, groupSize) {
 
 function generateAllTeams(peopleArray, groupSize) {
 	teams = [];
-	while(peopleArray.length > 0) {
+	while (peopleArray.length > 0) {
 		var currentGroup = getRandomTeam(peopleArray, groupSize);
 		teams.push(currentGroup);
 	}
@@ -42,7 +42,7 @@ function generateAllTeams(peopleArray, groupSize) {
 
 function addTeamsHTML(teamsArray) {
 	var teamContainerEl = document.getElementById('team-container');
-	for (var i=0; i<teamsArray.length; i++) {
+	for (var i = 0; i < teamsArray.length; i++) {
 		var teamGroupHTML = document.createElement('div');
 		var teamNumber = i + 1;
 		teamGroupHTML.classList.add('team');
@@ -56,7 +56,7 @@ function formatTextareaValue(textAreaValue) {
 	var valueToDelete = '';
 
 	// loop backwards because splice will re-index the array
-	for (var i=peopleArray.length; i >= 0; i--) {
+	for (var i = peopleArray.length; i >= 0; i--) {
 		if (peopleArray[i] === valueToDelete) {
 			peopleArray.splice(i, 1);
 		}
@@ -83,12 +83,12 @@ function generateErrors(inputValidity, textareaValidity) {
 		}
 	];
 
-	for (var i=0; i < validityTests.length; i++) {
+	for (var i = 0; i < validityTests.length; i++) {
 		var targetEl = document.getElementById(validityTests[i].errorId);
-		var inputError = 'Values must be an integer > 0';
-		var textareaError = 'No People Info Entered';
+		var inputError = '!*** Values must be an integer > 0';
+		var textareaError = '!*** No People Info Entered';
 		var errorText = validityTests[i].type === 'input' ? inputError : textareaError;
-		
+
 		if (!validityTests[i].validity) {
 			targetEl.innerHTML = errorText;
 		} else {
@@ -97,7 +97,7 @@ function generateErrors(inputValidity, textareaValidity) {
 	}
 }
 
-document.getElementById('team-settings').addEventListener('submit', function(e) {
+document.getElementById('team-settings').addEventListener('submit', function (e) {
 	e.preventDefault();
 
 	var inputValue = document.getElementsByTagName('input')[0].value;
@@ -113,12 +113,13 @@ document.getElementById('team-settings').addEventListener('submit', function(e) 
 	if (isValidInputValue && isValidTextarea) {
 		document.getElementById('team-container').innerHTML = '';
 		generateAllTeams(peopleArray, inputValue);
+		document.getElementById("download-button").focus();
 	}
 });
 
 function convertArrayOfObjectsToCSV(teamlist) {
 	console.log("in convert function");
-	
+
 	data = teamlist || null;
 	if (data == null || !data.length) {
 		return null;
@@ -126,13 +127,13 @@ function convertArrayOfObjectsToCSV(teamlist) {
 	console.log("got a valid team list:");
 	console.log(teamlist);
 	columnDelimiter = ',';
-	lineDelimiter =  '\n';
+	lineDelimiter = '\n';
 
 	keys = Object.keys(data[0]);
 
 	result = '';
-	data.forEach(function(item) {
-		keys.forEach(function(key) {
+	data.forEach(function (item) {
+		keys.forEach(function (key) {
 			result += item[key];
 		});
 		result += lineDelimiter;
@@ -142,6 +143,7 @@ function convertArrayOfObjectsToCSV(teamlist) {
 }
 
 function downloadCSV(args) {
+	
 	var data, filename, link;
 
 	var csv = convertArrayOfObjectsToCSV(teams);
@@ -165,6 +167,8 @@ function downloadCSV(args) {
 	link.setAttribute('download', filename);
 	link.click();
 }
+
+
 
 init();
 
