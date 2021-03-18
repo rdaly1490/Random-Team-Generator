@@ -1,6 +1,8 @@
 # Random-Team-Generator
 Random Team Generator
 
+[Generate-teams-now](https://rameshgkwd05.github.io/Random-Team-Generator/)
+
 This simple html webpage helps you to create a random teams based on provided team-size and list of players.
 
 ## Steps to run this webapp
