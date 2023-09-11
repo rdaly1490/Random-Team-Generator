@@ -20,9 +20,19 @@
 			<textarea placeholder="Enter single name per line" /></textarea>
 			<p id="people-error" class="error-text"></p>
 			<button>Generate Teams!</button>
+			<div id="tabularOutputDiv">
+				Tablular output:
+				<label class="switch">
+					<input id="tabular-output-switch" type="checkbox" checked>
+					<span class="slider round"></span>
+				  </label>				  
+			</div>
 		</form>
 
 		<div id="team-container"></div>
+		<hr/>
+		<div id="team-table"></div>
+		
 		<a id="download-button" href='#' onclick='downloadCSV({ filename: "infinityTeamsData.csv" });'>Download CSV</a>
 	</div>
 

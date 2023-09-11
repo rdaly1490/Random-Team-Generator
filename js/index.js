@@ -11,11 +11,8 @@ function getRandomTeam(arr, groupSize) {
 
 		var randomPerson = arr[Math.floor(Math.random() * arr.length)];
 
-		// If we get undefined, out of choices.  Need to remove the last "&"
-		// that we appended and break out of loop.
+		// If we get undefined, out of choices, break out of loop.
 		if (randomPerson === undefined) {
-			var trailingAmpersandIndex = currentTeam.lastIndexOf(' &');
-			currentTeam = currentTeam.substring(0, trailingAmpersandIndex);
 			break;
 		}
 
@@ -23,10 +20,6 @@ function getRandomTeam(arr, groupSize) {
 		var indexOfPerson = arr.indexOf(randomPerson);
 		arr.splice(indexOfPerson, 1);
 
-		// Append an & if we're on any but the last group member 
-		// var stringToAppend = (i+1) +'. ' + randomPerson;
-		// if (i < groupSize - 1) { stringToAppend += ' , '; }
-		// currentTeam += stringToAppend;
 		currentTeam.push(randomPerson);
 	}
 	return currentTeam;
@@ -37,13 +30,12 @@ function padDummyPeople(peopleArray, groupSize) {
 	for(var di = 1; di <= dummiesNeeded; di++) {
 		peopleArray.push('dummy'+di);
 	}
-	return peopleArray;
 }
 
 function generateAllTeams(peopleArray, groupSize) {
 	teams = [];
 	// level input people array by adding dummy players for missing entries
-	var peopleArray = padDummyPeople(peopleArray, groupSize);
+	padDummyPeople(peopleArray, groupSize);
 	while (peopleArray.length > 0) {
 		var currentGroup = getRandomTeam(peopleArray, groupSize);
 		teams.push(currentGroup);
@@ -62,28 +54,53 @@ function generateTeamRow(teamPlayers) {
 	teamRow += stringToAppend;
 	return teamRow
 }
+
 function addTeamsHTML(teamsArray) {
-	var teamContainerEl = document.getElementById('team-container');
-	for (var i = 0; i < teamsArray.length; i++) {
-		var teamGroupHTML = document.createElement('div');
-		var teamNumber = i + 1;
-		teamGroupHTML.classList.add('team');
-		var teamRow = generateTeamRow(teamsArray[i])
-		teamGroupHTML.innerHTML = 'Team #' + teamNumber + ': ' + teamRow;
-		teamContainerEl.appendChild(teamGroupHTML);
+
+	var tabularOuputRequested = document.getElementById('tabular-output-switch').checked;	
+	// reset display areas
+	document.getElementById('team-container').innerHTML = '';
+	document.getElementById("team-table").innerHTML = '';
+
+	if (tabularOuputRequested == false) {
+		var teamContainerEl = document.getElementById('team-container');
+		for (var i = 0; i < teamsArray.length; i++) {
+			var teamGroupHTML = document.createElement('div');
+			var teamNumber = i + 1;
+			teamGroupHTML.classList.add('team');
+			var teamRow = generateTeamRow(teamsArray[i])
+			teamGroupHTML.innerHTML = 'Team #' + teamNumber + ': ' + teamRow;
+			teamContainerEl.appendChild(teamGroupHTML);
+		}
+	} else {
+
+		var html = "<table class='styled-table'>";
+		html+="<tr><th> </th>";
+		for(var hi=0; hi<teamsArray[0].length; hi++){
+			html+="<th>Player"+(hi+1)+"</th>";
+		}
+		html+="</tr>";
+		for (var i = 0; i < teamsArray.length; i++) {
+			html+="<tr>";
+			var tnum = i+1;
+			html+="<th> Team #"+tnum;
+			teamPlayers = teamsArray[i];
+			// console.log(teamPlayers)
+			for(var pi=0; pi<teamPlayers.length; pi++) {
+				html+="<td>"+ teamPlayers[pi]+"</td>";
+			}
+			html+="</tr>";
+		}
+		html+="</table>";
+		document.getElementById("team-table").innerHTML = html;
 	}
 }
 
 function formatTextareaValue(textAreaValue) {
-	var peopleArray = textAreaValue.split('\n');
-	var valueToDelete = '';
-
-	// loop backwards because splice will re-index the array
-	for (var i = peopleArray.length; i >= 0; i--) {
-		if (peopleArray[i] === valueToDelete) {
-			peopleArray.splice(i, 1);
-		}
-	}
+	var inputPeopleArray = textAreaValue.split('\n');
+	// console.log(inputPeopleArray);
+	var peopleArray = inputPeopleArray.filter((str) => str.trim() !== '');
+	// console.log(peopleArray)
 	return peopleArray;
 }
 
@@ -141,23 +158,23 @@ document.getElementById('team-settings').addEventListener('submit', function (e)
 });
 
 function convertArrayOfObjectsToCSV(teamlist) {
-	console.log("in convert function");
+	// console.log("in convert function");
 
 	data = teamlist || null;
 	if (data == null || !data.length) {
 		return null;
 	}
 	console.log("got a valid team list:");
-	console.log(teamlist);
+	// console.log(teamlist);
 	columnDelimiter = ',';
 	lineDelimiter = '\n';
 	cellSeparator = ','
 	keys = Object.keys(data[0]);
-	console.log(keys)
+	// console.log(keys)
 
 	result = '';
 	data.forEach(function (item) {
-		console.log(item)
+		// console.log(item)
 		line = '';
 		keys.forEach(function (key) {
 			line += item[key];
