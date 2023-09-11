@@ -94,7 +94,12 @@ p {
 	line-height: 32px;
 }
 
-
+p foot {
+	font-style: italic;
+	color: #080000;
+	font-size: 11px;
+	line-height: 20px;
+}
  
   a {
 	position: relative;
@@ -141,5 +146,12 @@ p {
 	text-decoration: none;
 	border-radius: 20px;
 	margin-top: 25px;
-	
+}
+
+
+a foot {
+	font-style: italic;
+	color: #120aee;
+	font-size: 11px;
+	line-height: 20px;
 }
