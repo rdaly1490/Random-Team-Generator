@@ -6,7 +6,7 @@ function init() {
 }
 
 function getRandomTeam(arr, groupSize) {
-	var currentTeam = '';
+	var currentTeam = [];
 	for (var i = 0; i < groupSize; i++) {
 
 		var randomPerson = arr[Math.floor(Math.random() * arr.length)];
@@ -24,15 +24,26 @@ function getRandomTeam(arr, groupSize) {
 		arr.splice(indexOfPerson, 1);
 
 		// Append an & if we're on any but the last group member 
-		var stringToAppend = randomPerson;
-		if (i < groupSize - 1) { stringToAppend += ' , '; }
-		currentTeam += stringToAppend;
+		// var stringToAppend = (i+1) +'. ' + randomPerson;
+		// if (i < groupSize - 1) { stringToAppend += ' , '; }
+		// currentTeam += stringToAppend;
+		currentTeam.push(randomPerson);
 	}
 	return currentTeam;
 }
 
+function padDummyPeople(peopleArray, groupSize) {
+	var dummiesNeeded = peopleArray.length%groupSize;
+	for(var di = 1; di <= dummiesNeeded; di++) {
+		peopleArray.push('dummy'+di);
+	}
+	return peopleArray;
+}
+
 function generateAllTeams(peopleArray, groupSize) {
 	teams = [];
+	// level input people array by adding dummy players for missing entries
+	var peopleArray = padDummyPeople(peopleArray, groupSize);
 	while (peopleArray.length > 0) {
 		var currentGroup = getRandomTeam(peopleArray, groupSize);
 		teams.push(currentGroup);
@@ -40,13 +51,25 @@ function generateAllTeams(peopleArray, groupSize) {
 	addTeamsHTML(teams);
 }
 
+function generateTeamRow(teamPlayers) {
+	var teamRow = ''
+	var pi=1;
+	for(; pi<teamPlayers.length; pi++) {
+		var stringToAppend = pi+'. ' + teamPlayers[pi-1] + ', ';
+		teamRow += stringToAppend;
+	}
+	var stringToAppend = pi+'. ' + teamPlayers[pi-1];
+	teamRow += stringToAppend;
+	return teamRow
+}
 function addTeamsHTML(teamsArray) {
 	var teamContainerEl = document.getElementById('team-container');
 	for (var i = 0; i < teamsArray.length; i++) {
 		var teamGroupHTML = document.createElement('div');
 		var teamNumber = i + 1;
 		teamGroupHTML.classList.add('team');
-		teamGroupHTML.innerHTML = 'Team #' + teamNumber + ': ' + teamsArray[i];
+		var teamRow = generateTeamRow(teamsArray[i])
+		teamGroupHTML.innerHTML = 'Team #' + teamNumber + ': ' + teamRow;
 		teamContainerEl.appendChild(teamGroupHTML);
 	}
 }
@@ -128,15 +151,22 @@ function convertArrayOfObjectsToCSV(teamlist) {
 	console.log(teamlist);
 	columnDelimiter = ',';
 	lineDelimiter = '\n';
-
+	cellSeparator = ','
 	keys = Object.keys(data[0]);
+	console.log(keys)
 
 	result = '';
 	data.forEach(function (item) {
+		console.log(item)
+		line = '';
 		keys.forEach(function (key) {
-			result += item[key];
+			line += item[key];
+			line += ', '
+			
 		});
-		result += lineDelimiter;
+		line.slice(0, -2);
+		line += lineDelimiter;
+		result += line;
 	});
 
 	return result;
